@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lexed.dao.UserMapper">
+  
+    <!-- 登录 -->
+    <select id="findByUsername" parameterType="string" resultType="user">
+           select * from user WHERE name=#{name}
+    </select>
+  
+     <!-- 查询所有 -->  
+    <select id="selectByList" resultType="user" parameterType="user">
+	    select * from user 
+	    <where>
+		    <if test="age != null">
+		      and age = #{age}
+		    </if>
+		    <if test="name != null">
+		      and name like concat('%', #{name},'%')
+		    </if>
+	    </where>
+  </select>
+  
+  
+  
+    <!-- 新增 -->
+      <insert id="saveUser" parameterType="User">
+         insert into user(name,age,password) values (#{name},#{age},#{password})
+      </insert>
+      
+      
+     <!-- 根据id查询用户信息  修改 --> 
+    <select id="findByUserid" resultType="user" parameterType="Integer" >
+       select * from user where id = #{id}
+    </select>
+    
+     <!-- 修改 -->
+     <update id="updateUser" parameterType="User" >
+        update user set name=#{name},age=#{age},password=#{password} where id=#{id}
+     </update>
+     
+     <!-- 删除 -->
+      <delete id="deleteUser" parameterType="int">
+          delete from user where id=#{id}    
+      </delete>
+</mapper>
